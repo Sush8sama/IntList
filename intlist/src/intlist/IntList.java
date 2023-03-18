@@ -8,19 +8,28 @@ package intlist;
 
 public class IntList {
 	/**
-	 * @referenceobject
+	 * @represent
 	 */
 	private int[] elements;
 
 
+	/**
+	 * @return
+	 */
 public int getLength() {
 	return elements.length;
 }
-
+/** 
+ * @pre | 0 <= index && index < getLength()
+ * @post | result == getElementsArray()[index]
+ */
 public int getElementAtIndex(int index) {
 	return elements[index];
 }
 
+/**
+ * @creates | result
+ */
 public int[] getElementsArray() {
 	return elements.clone();
 }
