@@ -1,71 +1,88 @@
 package intlist;
 
 
-/**
- *@invar | getLength() >= 0
- *
- */
+
 
 public class IntList {
-	/**
-	 * @referenceobject
-	 */
-	private int[] elements;
+
+	private IntList nextNode;
+	private IntList previousNode;
+	private int value;
+	
 
 
 public int getLength() {
-	return elements.length;
+	if (nextNode == null) {
+	return 0;
+	}
+	else {
+		return 1 + nextNode.getLength();
+	}
 }
 
 public int getElementAtIndex(int index) {
-	return elements[index];
+	index++;
+	if (index == 0) {
+	return value;
+	}
+	else {
+		return nextNode.getElementAtIndex(index - 2);
+	}
 }
 
 public int[] getElementsArray() {
-	return elements.clone();
+	int length = getLength();
+	int[] elementsArray = new int[length];
+	for(int i = 0; i < length; i++) {
+		elementsArray[i] = getElementAtIndex(i);
+	}
+	return elementsArray;
 }
 
 /**
  * @mutates | 
  */
 public IntList() {
-	elements = new int[0];
+	nextNode = null;
 }
 
 /**
  * @inspects | this
  * @mutates | this
  * @post | getLength() == old(getLength()) + 1
- * @post | getElementAtIndex(getLength() - 1) == element
+ * @post | getElementAtIndex(getLength()-1) == element
  */
 
 public void addElement(int element) {
-	int length = elements.length;
-	int[] new_elements = new int[length + 1];
-	for(int i = 0; i < length; i++) {
-		new_elements[i] = elements[i];
-}
-	new_elements[length] = element;
-	 elements = new_elements;
+	if(nextNode == null) {
+		nextNode = new IntList();
+		nextNode.value = element;
+		nextNode.previousNode = this;
+	}
+	else {
+		nextNode.addElement(element);
+	}
 }
 
 /**
- * @throws IllegalArgumentException | getLength() == 0
  * @inspects | this
  * @mutates | this
- * @post | getLength() == old(getLength()) - 1
+// * @post | getLength() == old(getLength()) - 1
  * 
  */
 public void removeElement() {
-	int length = elements.length;
-	if (length == 0) {
-		throw new IllegalArgumentException("Index_Of_Bound");
+
+	if(nextNode == null) {
+		previousNode.nextNode = null;
 	}
-	int[] new_elements = new int[length - 1];
-	for(int i = 0; i < length-1; i++) {
-		new_elements[i] = elements[i];
-}
-	 elements = new_elements;
-}
+	else {
+		nextNode.removeElement();
+	}
+		
+		
+		
+		
+	}
 
 }
+
